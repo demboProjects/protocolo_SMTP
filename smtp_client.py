@@ -1,9 +1,7 @@
 from socket import *
+from telnetlib import IP
 endmsg = "\r\n.\r\n"
-
-sender_email = input("Enter your user email: ")
-dest_email = input("Enter destination user email: ")
-msg = input("Enter your message: ")
+print(gethostbyname("localhost"))
 # Choose a mail server (e.g. Google mail server) and call it mailserver
  #Fill in start
 mailserver = "localhost"
@@ -19,29 +17,33 @@ clientSocket.connect((mailserver, serverPort))
 recv = clientSocket.recv(1024).decode()
 print(recv)
 if recv[:3] != '220':
-    ...
-print('220 reply not received from server.')
+    print('220 reply not received from server.')
+
+print("220 response received from server")
 
 # Send HELO command and print server response.
 heloCommand = 'HELO Alice\r\n'
 clientSocket.send(heloCommand.encode())
 recv1 = clientSocket.recv(1024).decode()
-print(recv1)
+print(f"\n{recv1}")
 if recv1[:3] != '250':
- print('250 reply not received from server.')
+    print('250 reply not received from server.')
  
 # Send MAIL FROM command and print server response.
 # Fill in start
-mail_data = "MAIL FROM: <josedembo18@aluno.edu.br>\r\n"
+sender_email = input("Enter your user email: ")
+mail_data = f"MAIL FROM: <{sender_email}>\r\n"
 clientSocket.send(mail_data.encode())
 
 recv2 = clientSocket.recv(1024).decode()
-print(recv2)
+print(recv2,"\n")
 # Fill in end
 
 # Send RCPT TO command and print server response. 
 # Fill in start
-rcpt_data = "RCPT TO: <josepedrodanieldembo@gmail.com>\r\n".encode()
+
+dest_email = input("Enter destination user email: ")
+rcpt_data = f"RCPT TO: <{dest_email}>\r\n".encode()
 clientSocket.send(rcpt_data)
 
 recv3 = clientSocket.recv(1024).decode()
@@ -58,6 +60,7 @@ print(recv4)
 
 # Send message data.
 # Fill in start
+msg = input("Enter your message: ")
 message = "subjetc: {}\r\n".format(msg).encode()
 clientSocket.send(message)
 
